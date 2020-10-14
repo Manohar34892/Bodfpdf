@@ -1,0 +1,55 @@
+<div th:fragment="navbar" class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner">
+		<a class="btn btn-navbar" data-toggle="collapse"
+			data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+			class="icon-bar"></span> <span class="icon-bar"></span>
+		</a> <a class="brand" href="/">BondPDF</a>
+
+		<div class="nav-collapse">
+			<ul class="nav">
+				<li>
+					<a href="/">Home</a>
+					
+				</li >
+				<li sec:authorize="hasRole('ADMIN')">
+				
+					<a href="/user/uploadfile">File</a>
+					
+				</li>
+			</ul>
+			<ul class="nav pull-right">
+				<li>
+					<form class="navbar-search">
+						<span> <i class="icon-search" tabindex="0"></i>
+						</span> <label class="visuallyhidden" for="quickSearchFacade">Search:</label>
+						<input type="text" id="quickSearchFacade"
+							class="search-query input-xlarge"
+							placeholder="Quick Search Entire Database (ISIN or text)"
+							autocomplete="off" spellcheck="false">
+					</form>
+				</li>
+				<li>
+					<button class="btn btn-info feedback"
+						title="Contact support if you are unable to find something">
+						<i class="icon-envelope icon-white"></i>Support
+					</button>
+				</li>
+
+
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown"> <div sec:authentication="name"></div><b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<form style="display: none" id="logout" method="post"
+								action="/user/sessions">
+								<input type="hidden" name="_method" value="delete" />
+							</form> <a href="#" data-bypass="true"
+							onclick="document.forms['logout'].submit();return false;">Log
+								out</a>
+						</li>
+					</ul></li>
+			</ul>
+		</div>
+		<!--/.nav-collapse -->
+	</div>
+</div>
