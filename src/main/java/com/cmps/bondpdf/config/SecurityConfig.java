@@ -13,30 +13,35 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	
 	@Autowired
 	private UserDetailsService userDetailsSerives;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsSerives).passwordEncoder(encoded());
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/vendor/**","/img/**","/css/**","/js/**","/mazira-timeline/**","/angular_paginations/**").permitAll();
-		
-		http.authorizeRequests().antMatchers("/user/**","/rest/**").authenticated().anyRequest().permitAll();
-		http.authorizeRequests().antMatchers("/admin/**").authenticated().anyRequest().hasAnyRole("ADMIN").and()
-		.formLogin().loginPage("/user/").loginProcessingUrl("/sessions").defaultSuccessUrl("/user/bondpdf").permitAll();
-		
-		
+		http.authorizeRequests().antMatchers("/vendor/**", "/img/**", "/css/**", "/js/**", "/mazira-timeline/**",
+				"/angular_paginations/**" ,"/user/**","/rest/**").permitAll();
+
+		/*
+		 * http.authorizeRequests().antMatchers("/user/**",
+		 * "/rest/**").authenticated().anyRequest().permitAll();
+		 * 
+		 * http.authorizeRequests().antMatchers("/admin/**").authenticated().anyRequest(
+		 * ).permitAll().and()
+		 * .formLogin().loginPage("/user/").loginProcessingUrl("/sessions").
+		 * defaultSuccessUrl("/user/bondpdf") .permitAll();
+		 */
+
 	}
-	
+
 	@Bean
 	public BCryptPasswordEncoder encoded() {
 		return new BCryptPasswordEncoder();
